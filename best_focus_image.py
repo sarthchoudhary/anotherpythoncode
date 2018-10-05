@@ -43,12 +43,12 @@ x2 = x0 + contour_radius
 for i in range(x1,x2+1): #change x1,x2 for vertival, 45deg etc line cuts and take avg.
     intensity.append(result_array[y0,i])
 plt.figure()
-plt.plot(range(x1, x2+1), intensity)
+plt.plot(np.arange(-contour_radius, contour_radius+1), intensity)
 plt.title('intensity variation')
 
 #x = np.linspace(0,200,199)
 #x = range(0,2*contour_radius)
-x = np.arange(x1,x2+1)
+x = np.arange(-contour_radius, contour_radius+1)
 #y = intensity
 #initial_vals = [1,0,1]
 def gaussian(x,amp,cen,wid):
@@ -65,8 +65,8 @@ from lmfit import Model
 gmodel = Model(gaussian)
 #params = gmodel.make_params()
 #params = gmodel.make_params(amp=1, cen=0, wid=1)
-params = gmodel.make_params(amp=14000, cen=1640, wid=50)
-fitted_intensity = gmodel.fit(intensity, params, x=x) #check?
+params = gmodel.make_params(amp=14000, cen=0, wid=50) #check?
+fitted_intensity = gmodel.fit(intensity, params, x=x)
 plt.plot(x, fitted_intensity.best_fit, '-g')
 result=fitted_intensity.best_fit
 center_intensity = np.max(fitted_intensity.best_fit)
